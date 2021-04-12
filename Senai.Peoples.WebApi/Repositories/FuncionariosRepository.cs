@@ -32,7 +32,7 @@ namespace Senai.Peoples.WebApi.Repositories
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
                 // Declara a query a ser executada
-                string querySelectById = "SELECT idFuncionario, Nome FROM Funcionarios WHERE idFuncionario = @ID";
+                string querySelectById = "SELECT idFuncionario, Nome, Sobrenome FROM Funcionarios;
 
                 // Abre a conexão com o banco de dados
                 con.Open();
@@ -58,8 +58,11 @@ namespace Senai.Peoples.WebApi.Repositories
                             // Atribui à propriedade idFuncionario o valor da coluna "idFuncionario" da tabela do banco de dados
                             idFuncionario = Convert.ToInt32(rdr["idFuncionario"]),
 
-                            // Atribui à propriedade nome o valor da coluna "Nome" da tabela do banco de dados
-                            nome = rdr["Nome"].ToString()
+                            // Atribui à propriedade nome o valor da coluna "nome" da tabela do banco de dados
+                            nome = rdr["nome"].ToString(),
+
+                            // Atribui à propriedade nome o valor da coluna "sobrenome" da tabela do banco de dados
+                            sobrenome = rdr ["sobrenome"].ToString()
                         };
 
                         // Retorna o FuncionarioBuscado com os dados obtidos
@@ -77,28 +80,16 @@ namespace Senai.Peoples.WebApi.Repositories
             // Declara a SqlConnection con passando a string de conexão como parâmetro
             using (SqlConnection con = new SqlConnection(stringConexao))
             { 
-                // Declara a query que será executada
-                // INSERT INTO Generos(Nome) VALUES('Ficção Científica');
-                // INSERT INTO Generos(Nome) VALUES('Joana D'Arc');
-                // INSERT INTO Generos(Nome) VALUES('')DROP TABLE Filmes--');
-                // string queryInsert = "INSERT INTO Generos(Nome) VALUES('" + novoGenero.nome + "')";
-                // Não usar dessa forma pois pode causar o efeito Joana D'Arc
-                // Além de permitir SQL Injection
-                // Por exemplo
-                // "nome" : "')DROP TABLE Filmes--"
-                // Ao tentar cadastrar o comando acima, irá deletar a tabela Filmes do banco de dados
-                // https://www.devmedia.com.br/sql-injection/6102
 
                 // Declara a query que será executada
-                string queryInsert = "INSERT INTO (Nome) VALUES(@Nome)";
-
-                string queryInsert = "INSERT INTO (Sobrenome) VALUES(@Sobrenome)";
+                string queryInsert = "INSERT INTO (nome), (sobrenome) VALUES @nome, @sobrenome )";
 
                 // Declara o SqlCommand cmd passando a query que será executada e a conexão como parâmetros
                 using (SqlCommand cmd = new SqlCommand(queryInsert, con))
                 {
                     // Passa o valor para o parâmetro @Nome
-                    cmd.Parameters.AddWithValue("@Nome", novoFuncionario.nome);
+                    cmd.Parameters.AddWithValue("@nome", novoFuncionario.nome);
+                    cmd.Parameters.AddWithValue("@sobrenome", novoFuncionario.sobrenome);
 
                     // Abre a conexão com o banco de dados
                     con.Open();
