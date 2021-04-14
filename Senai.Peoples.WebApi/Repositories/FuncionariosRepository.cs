@@ -89,7 +89,7 @@ namespace Senai.Peoples.WebApi.Repositories
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
                 // Declara a query a ser executada
-                string querySelectById = " SELECT idFuncionario, Nome, Sobrenome, DataNascimento FROM Funcionarios ";
+                string querySelectById = " SELECT idFuncionario, Nome, Sobrenome, DataNascimento FROM Funcionarios WHERE idFuncionario = @ID ";
 
                 // Abre a conexão com o banco de dados
                 con.Open();
